@@ -1,9 +1,13 @@
 [package]
 name = "cloud-translate"
 version = "0.1.0"
+authors = ["Martin Geisler <martin@geisler.net>"]
 edition = "2021"
+description = "Translate Gettext PO files using GCP Cloud Translate."
 repository = "https://github.com/mgeisler/cloud-translate"
 license = "Apache-2.0"
+keywords = ["Gettext", "i18n", "translation"]
+categories = ["command-line-utilities", "localization"]
 
 [dependencies]
 anyhow = "1.0.68"
