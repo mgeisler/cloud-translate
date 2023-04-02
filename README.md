@@ -4,6 +4,14 @@ This little program will simplify starting a new Gettext translation
 by letting you send the untranslated entries through Google Translate
 via the GCP Cloud Translate.
 
+## Installation
+
+Run
+
+    cargo install cloud-translate
+
+## Usage
+
 To use the script, you need a Google Cloud account. Install `gcloud`
 and setup [application default credentials][1].
 
@@ -28,3 +36,9 @@ to translate: Cloud Translate is priced per character you translate.
 Currently, you get [500k characters for free per month][2].
 
 [2]: https://cloud.google.com/translate/pricing
+
+## License
+
+Licensed under the [Apache-2.0 license][3].
+
+[3]: https://github.com/mgeisler/cloud-translate/blob/main/LICENSE
