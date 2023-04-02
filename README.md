@@ -29,7 +29,7 @@ running
 You will need to create a new Google Cloud project. The project ID is
 needed for running `cloud-translate`:
 
-    cargo run -- your-project-id-123456 some-path/xx.po 10000
+    cloud-translate your-project-id-123456 some-path/xx.po 10000
 
 The `10000` argument denotes the number of Unicode characters you want
 to translate: Cloud Translate is priced per character you translate.
