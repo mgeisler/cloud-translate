@@ -166,7 +166,7 @@ async fn translate_catalog(
     .await?;
 
     for (idx, msgstr) in msg_indices.into_iter().zip(msgstrs) {
-        let mut msg = &mut catalog.messages[idx];
+        let msg = &mut catalog.messages[idx];
         match &mut msg.body {
             MessageBody::Singular(singular) => singular.msgstr = msgstr.clone(),
             MessageBody::Plural(_) => todo!("plural messages are not supported"),
