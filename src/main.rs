@@ -1,7 +1,8 @@
 use std::path::Path;
 
 use anyhow::{anyhow, Context};
-use google_cloud_auth::{token::Token, Config};
+use google_cloud_auth::token::Token;
+use google_cloud_auth::Config;
 use polib::catalog::Catalog;
 use polib::message::MessageBody;
 use polib::po_file;
@@ -79,8 +80,7 @@ async fn translate(
         source_language_code: "en_US",
         target_language_code: lang,
     };
-    let url =
-        format!("https://translate.googleapis.com/v3/projects/{project}:translateText");
+    let url = format!("https://translate.googleapis.com/v3/projects/{project}:translateText");
     let bytes = client
         .post(&url)
         .bearer_auth(&token.access_token)
@@ -89,10 +89,8 @@ async fn translate(
         .await?
         .bytes()
         .await?;
-    let response: TranslateTextResponse =
-        serde_json::from_slice(&bytes).with_context(|| {
-            format!("could not deserialize: {}", String::from_utf8_lossy(&bytes))
-        })?;
+    let response: TranslateTextResponse = serde_json::from_slice(&bytes)
+        .with_context(|| format!("could not deserialize: {}", String::from_utf8_lossy(&bytes)))?;
     let msgstrs = response
         .translations
         .into_iter()
@@ -104,17 +102,14 @@ async fn translate(
 fn load_catalog<P: AsRef<Path>>(path: P) -> anyhow::Result<Catalog> {
     po_file::parse(path.as_ref())
         .map_err(|err| anyhow!("{err}"))
-        .with_context(|| {
-            format!("Could not parse {} as PO file", path.as_ref().display())
-        })
+        .with_context(|| format!("Could not parse {} as PO file", path.as_ref().display()))
 }
 
 fn save_catalog<P: AsRef<Path>>(path: P, catalog: &Catalog) -> anyhow::Result<()> {
     let path = path.as_ref();
     if path.exists() {
         // po_file::write does not remove an existing file
-        std::fs::remove_file(path)
-            .with_context(|| format!("Removing {}", path.display()))?
+        std::fs::remove_file(path).with_context(|| format!("Removing {}", path.display()))?
     }
     polib::po_file::write(catalog, path)
         .with_context(|| format!("Writing catalog to {}", path.display()))?;
@@ -192,8 +187,7 @@ async fn main() -> anyhow::Result<()> {
             let client = create_client(gcp_project)?;
 
             let mut catalog = load_catalog(po_file)?;
-            translate_catalog(&mut catalog, &client, &token, gcp_project, max_char_count)
-                .await?;
+            translate_catalog(&mut catalog, &client, &token, gcp_project, max_char_count).await?;
             save_catalog(po_file, &catalog)?;
             Ok(())
         }
